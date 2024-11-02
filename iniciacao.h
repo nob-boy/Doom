@@ -4,6 +4,7 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
+
 ALLEGRO_BITMAP* devspng = NULL; // declara as imagem
 ALLEGRO_BITMAP* doompng = NULL;
 ALLEGRO_BITMAP* cursopng = NULL;
