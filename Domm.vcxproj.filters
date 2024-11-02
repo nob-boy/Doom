@@ -26,8 +26,48 @@
     <ClInclude Include="menu.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="radio.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="intro\devs.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="intro\disc.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="intro\inidoom.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="intro\uepg.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="menu\inic.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="menu\iniciar.jpg">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="menu\menu.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="intro\theme.wav">
+      <Filter>Arquivos de Recurso</Filter>
+    </Media>
+    <Media Include="radio\E1M1.wav">
+      <Filter>Arquivos de Recurso</Filter>
+    </Media>
+    <Media Include="radio\MainTheme.wav">
+      <Filter>Arquivos de Recurso</Filter>
+    </Media>
+    <Media Include="radio\TheOnly.wav">
+      <Filter>Arquivos de Recurso</Filter>
+    </Media>
   </ItemGroup>
 </Project>

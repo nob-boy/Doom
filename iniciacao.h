@@ -5,24 +5,26 @@
 #include <allegro5/allegro_acodec.h>
 
 
+
 ALLEGRO_BITMAP* devspng = NULL; // declara as imagem
 ALLEGRO_BITMAP* doompng = NULL;
 ALLEGRO_BITMAP* cursopng = NULL;
 ALLEGRO_BITMAP* uepgpng = NULL;
 ALLEGRO_SAMPLE* theme = NULL;
 
+
 void introducao_itens() {
-    devspng = al_load_bitmap("./devs.png");
-    doompng = al_load_bitmap("./doom.jpg");
-    cursopng = al_load_bitmap("./disc.png");
-    uepgpng = al_load_bitmap("./uepg.png");
-    theme = al_load_sample("./theme.wav");
+    devspng = al_load_bitmap("./intro/devs.png");
+    doompng = al_load_bitmap("./intro/inidoom.jpg");
+    cursopng = al_load_bitmap("./intro/disc.png");
+    uepgpng = al_load_bitmap("./intro/uepg.png");
+    theme = al_load_sample("./intro/theme.wav");
 }
 
 void introducao(ALLEGRO_TIMER* timer) {
    
-        al_play_sample(theme, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
-     
+        
+    al_play_sample(theme, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
 
     int timer_count = al_get_timer_count(timer); // Obtém o tempo atual
 
@@ -42,6 +44,7 @@ void introducao(ALLEGRO_TIMER* timer) {
 }
 
 void destroi_introducao() {
+    
     al_destroy_sample(theme);
     al_destroy_bitmap(doompng);
     al_destroy_bitmap(devspng);

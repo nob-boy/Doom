@@ -146,9 +146,25 @@
   <ItemGroup>
     <ClInclude Include="iniciacao.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="radio.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="intro\devs.png" />
+    <Image Include="intro\disc.png" />
+    <Image Include="intro\inidoom.jpg" />
+    <Image Include="intro\uepg.png" />
+    <Image Include="menu\inic.jpg" />
+    <Image Include="menu\iniciar.jpg" />
+    <Image Include="menu\menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="intro\theme.wav" />
+    <Media Include="radio\E1M1.wav" />
+    <Media Include="radio\MainTheme.wav" />
+    <Media Include="radio\TheOnly.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
