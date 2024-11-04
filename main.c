@@ -17,6 +17,10 @@ int main() {
     bool mostra_devs = false;
     int frame = 0; 
 
+    int seg = 0;
+
+    bool janela = true;
+
     al_init();
     al_init_font_addon();
     al_init_image_addon();
@@ -40,7 +44,7 @@ int main() {
     itens_menu();
     declara_devs();
 
-    while (true) {
+    while (janela) {
         ALLEGRO_EVENT event;
         al_wait_for_event(event_queue, &event);
 
@@ -50,13 +54,17 @@ int main() {
 
         al_clear_to_color(al_map_rgb(0, 0, 0));
 
-        radio();
+        radio(&seg);
 
-        if (tempo < 1700) {
-            introducao(timer);
+        if (tempo % 60 == 0) {
+            seg++;
+        }
+
+        if (seg < 10) {
+            introducao(&seg);
         }
         else {
-                iniciar_menu(timer);
+                iniciar_menu(&seg);
 
                 if (mostra_devs) {
                     devs();
@@ -87,6 +95,7 @@ int main() {
                         case 1:
                             break;
                         case 2:
+                            janela = false;
                             break;
                         case 3:
                             break;
