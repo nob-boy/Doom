@@ -19,22 +19,21 @@ void introducao_itens() {
     
 }
 
-void introducao(ALLEGRO_TIMER* timer) {
-   
+void introducao(int *seg) {
 
-    int timer_count = al_get_timer_count(timer); // Obtém o tempo atual
+    //int timer_count = al_get_timer_count(timer); // ObtÃ©m o tempo atual
 
-    if (timer_count < 400) {
+    if (*seg < 2) {
         al_draw_bitmap(doompng, 0, 0, 0);
     }
-    else if (timer_count < 800) {
+    else if (*seg < 4) {
         al_draw_bitmap(devspng, 0, 0, 0);
     }
-    else if (timer_count < 1200) {
+    else if (*seg < 6) {
         al_draw_bitmap(cursopng, 0, 0, 0);
     }
-    else if (timer_count < 1600) {
-        int frame_index = (timer_count - 1200) / 100; // Calcula qual sprite deve ser desenhado
+    else if (*seg < 10) {
+        int frame_index = (*seg - 6) % 5; // Calcula qual sprite deve ser desenhado
         al_draw_bitmap_region(uepgpng, frame_index * 1000, 0, 1000, 1000, 0, 0, 0);
     }
 }
