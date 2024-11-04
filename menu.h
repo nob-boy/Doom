@@ -4,6 +4,7 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/keyboard.h>
 
+
 ALLEGRO_BITMAP* menu = NULL;
 ALLEGRO_BITMAP* iniciar_animacao = NULL;
 ALLEGRO_BITMAP* iniciar = NULL;
@@ -14,20 +15,22 @@ void itens_menu() {
     iniciar = al_load_bitmap("./menu/inic.jpg");
 }
 
-void iniciar_menu(ALLEGRO_TIMER* timer) {
+void iniciar_menu(int *seg) {
     int frame;
-    int timer_count = al_get_timer_count(timer);
 
-    if (timer_count < 2500) {
-        frame = (timer_count - 1700) / 20;
+    if (*seg < 15) {
+
+        frame = (*seg - 10)* 2 % 5;
         al_draw_bitmap_region(iniciar_animacao, frame * 1000, 0, 1000, 1000, 0, 0, 0);
+
     }
-    if (timer_count > 1800) {
+    if (*seg > 12) {
         al_draw_bitmap(iniciar, 0, 0, 0);
     }
 }
 
 void Menu(int* frame) {
+
     int current_x = (*frame % 2) * 1000;  // Controle horizontal (2 sprites por linha)
     int current_y = (*frame / 2) * 1000;  // Controle vertical (3 linhas)
 
