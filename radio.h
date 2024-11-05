@@ -18,26 +18,26 @@ void declara_musicas() {
 	
 }
 
-void radio(int *seg_jogo) {
-    
-    if (*seg_jogo < 70) {
+void radio(int* seg_jogo) {
+
+	if (*seg_jogo < 70) {
 		al_detach_audio_stream(E1M1); // Para a música anterior
-	    al_attach_audio_stream_to_mixer(dogma, al_get_default_mixer());
-	    al_set_audio_stream_playmode(dogma, ALLEGRO_PLAYMODE_ONCE);
-    }
+		al_attach_audio_stream_to_mixer(dogma, al_get_default_mixer());
+		al_set_audio_stream_playmode(dogma, ALLEGRO_PLAYMODE_ONCE);
+	}
 
 	else if ((*seg_jogo > 70) && (*seg_jogo <= 509)) {
-			al_detach_audio_stream(dogma); // Para a música anterior
-			al_attach_audio_stream_to_mixer(bfg, al_get_default_mixer());
-			al_set_audio_stream_playmode(bfg, ALLEGRO_PLAYMODE_ONCE); 
-	 }
+		al_detach_audio_stream(dogma); // Para a música anterior
+		al_attach_audio_stream_to_mixer(bfg, al_get_default_mixer());
+		al_set_audio_stream_playmode(bfg, ALLEGRO_PLAYMODE_ONCE);
+	}
 	else if ((*seg_jogo > 509) && (*seg_jogo <= 919)) {
 		al_detach_audio_stream(dogma); // Para a música anterior
 		al_attach_audio_stream_to_mixer(bfg, al_get_default_mixer());
 		al_set_audio_stream_playmode(bfg, ALLEGRO_PLAYMODE_ONCE);
-	
-	}
 
+	}
+}
 
 
 void destroi_musica() {
