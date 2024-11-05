@@ -38,7 +38,7 @@ void Menu(int* frame) {
     int current_x = (*frame % 2) * 1000;  // Controle horizontal (2 sprites por linha)
     int current_y = (*frame / 2) * 1000;  // Controle vertical (3 linhas)
 
-    al_detach_audio_stream(mainTheme); // Para a música anterior
+    al_detach_audio_stream(mainTheme); // Para a mÃºsica anterior
 
     al_attach_audio_stream_to_mixer(E1M1, al_get_default_mixer());
 

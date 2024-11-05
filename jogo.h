@@ -3,7 +3,7 @@
 #include <allegro5/allegro_primitives.h>
 #include <math.h>
 
-// Definir as dimensıes da tela e do mapa (vocÍ pode ajustar conforme sua necessidade)
+// Definir as dimens√µes da tela e do mapa (voc√™ pode ajustar conforme sua necessidade)
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
 #define MAP_WIDTH 20
@@ -11,12 +11,12 @@
 
 // Estrutura para o jogador
 typedef struct {
-    float x, y;  // PosiÁ„o do jogador
-    float dirX, dirY; // DireÁ„o que o jogador est· olhando
-    float planeX, planeY; // Plano da c‚mera (para projeÁ„o 2.5D)
+    float x, y;  // Posi√ß√£o do jogador
+    float dirX, dirY; // Dire√ß√£o que o jogador est√° olhando
+    float planeX, planeY; // Plano da c√¢mera (para proje√ß√£o 2.5D)
 } Player;
 
-// DefiniÁ„o do mapa (0 = espaÁo vazio, 1 = parede)
+// Defini√ß√£o do mapa (0 = espa√ßo vazio, 1 = parede)
 int map[MAP_WIDTH][MAP_HEIGHT] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -39,19 +39,19 @@ int map[MAP_WIDTH][MAP_HEIGHT] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-// FunÁ„o para verificar se a nova posiÁ„o do jogador colide com uma parede
+// Fun√ß√£o para verificar se a nova posi√ß√£o do jogador colide com uma parede
 bool check_collision(Player* player, float newX, float newY) {
     int mapX = (int)newX;
     int mapY = (int)newY;
 
-    // Certifique-se de que o jogador est· dentro dos limites do mapa
+    // Certifique-se de que o jogador est√° dentro dos limites do mapa
     if (mapX < 0 || mapX >= MAP_WIDTH || mapY < 0 || mapY >= MAP_HEIGHT) {
-        return true; // Colis„o com o limite do mapa
+        return true; // Colis√£o com o limite do mapa
     }
     return map[mapX][mapY] == 1; // Retorna verdadeiro se houver uma parede
 }
 
-// FunÁ„o para mover o jogador
+// Fun√ß√£o para mover o jogador
 void move_player(Player* player, bool* keys, float moveSpeed, float rotSpeed) {
     float newX = player->x;
     float newY = player->y;
@@ -60,17 +60,17 @@ void move_player(Player* player, bool* keys, float moveSpeed, float rotSpeed) {
     if (keys[ALLEGRO_KEY_W]) {
         newX += player->dirX * moveSpeed;
         newY += player->dirY * moveSpeed;
-        if (!check_collision(player, newX, newY)) { // Verifica colis„o
-            player->x = newX; // Atualiza posiÁ„o se n„o houver colis„o
+        if (!check_collision(player, newX, newY)) { // Verifica colis√£o
+            player->x = newX; // Atualiza posi√ß√£o se n√£o houver colis√£o
             player->y = newY;
         }
     }
-    // Movimenta para tr·s
+    // Movimenta para tr√°s
     if (keys[ALLEGRO_KEY_S]) {
         newX -= player->dirX * moveSpeed;
         newY -= player->dirY * moveSpeed;
-        if (!check_collision(player, newX, newY)) { // Verifica colis„o
-            player->x = newX; // Atualiza posiÁ„o se n„o houver colis„o
+        if (!check_collision(player, newX, newY)) { // Verifica colis√£o
+            player->x = newX; // Atualiza posi√ß√£o se n√£o houver colis√£o
             player->y = newY;
         }
     }
@@ -96,46 +96,46 @@ void move_player(Player* player, bool* keys, float moveSpeed, float rotSpeed) {
     }
 }
 
-// FunÁ„o para desenhar uma linha vertical (parede)
+// Fun√ß√£o para desenhar uma linha vertical (parede)
 void drawVerticalLine(int x, int lineHeight, ALLEGRO_COLOR color) {
     int start = (SCREEN_HEIGHT - lineHeight) / 2;
     int end = start + lineHeight;
     al_draw_line(x, start, x, end, color, 1.0);
 }
 
-// FunÁ„o de raycasting - ser· chamada pelo main
+// Fun√ß√£o de raycasting - ser√° chamada pelo main
 void doom(Player* player, bool* keys) {
     al_clear_to_color(al_map_rgb(0, 0, 0)); // Limpar a tela
 
     float moveSpeed = 0.05; // Velocidade de movimento
-    float rotSpeed = 0.03;  // Velocidade de rotaÁ„o
+    float rotSpeed = 0.03;  // Velocidade de rota√ß√£o
 
-    // Chama a funÁ„o que move o jogador
+    // Chama a fun√ß√£o que move o jogador
     move_player(player, keys, moveSpeed, rotSpeed);
 
 
     // Raycasting para renderizar as paredes
     for (int x = 0; x < SCREEN_WIDTH; x++) {
-        // Calcular a posiÁ„o e direÁ„o dos raios
+        // Calcular a posi√ß√£o e dire√ß√£o dos raios
         double cameraX = 2 * x / (double)SCREEN_WIDTH - 1;
         double rayDirX = player->dirX + player->planeX * cameraX;
         double rayDirY = player->dirY + player->planeY * cameraX;
 
-        // PosiÁ„o do jogador em coordenadas do mapa
+        // Posi√ß√£o do jogador em coordenadas do mapa
         int mapX = (int)player->x;
         int mapY = (int)player->y;
 
-        // Dist‚ncia atÈ as prÛximas interseÁıes
+        // Dist√¢ncia at√© as pr√≥ximas interse√ß√µes
         double deltaDistX = fabs(1 / rayDirX);
         double deltaDistY = fabs(1 / rayDirY);
 
-        // Dist‚ncia atÈ encontrar uma parede
+        // Dist√¢ncia at√© encontrar uma parede
         double sideDistX, sideDistY;
         int stepX, stepY;
         int hit = 0; // Foi atingida uma parede?
         int side;    // 0 = eixo X, 1 = eixo Y
 
-        // Determinar a direÁ„o do passo (step) e calcular a dist‚ncia inicial
+        // Determinar a dire√ß√£o do passo (step) e calcular a dist√¢ncia inicial
         if (rayDirX < 0) {
             stepX = -1;
             sideDistX = (player->x - mapX) * deltaDistX;
@@ -155,7 +155,7 @@ void doom(Player* player, bool* keys) {
 
         // DDA (Digital Differential Analyzer) para encontrar a parede
         while (!hit) {
-            // AvanÁar para o prÛximo quadrado do mapa
+            // Avan√ßar para o pr√≥ximo quadrado do mapa
             if (sideDistX < sideDistY) {
                 sideDistX += deltaDistX;
                 mapX += stepX;
@@ -171,7 +171,7 @@ void doom(Player* player, bool* keys) {
         }
 
 
-        // Dist‚ncia do raio ao ponto de colis„o
+        // Dist√¢ncia do raio ao ponto de colis√£o
         double perpWallDist;
         if (side == 0)
             perpWallDist = (mapX - player->x + (1 - stepX) / 2) / rayDirX;
@@ -184,10 +184,10 @@ void doom(Player* player, bool* keys) {
         // Escolher a cor baseada no lado
         ALLEGRO_COLOR color;
         if (side == 0) {
-            color = al_map_rgb(255, 0, 0); // Paredes no eixo X s„o vermelhas
+            color = al_map_rgb(255, 0, 0); // Paredes no eixo X s√£o vermelhas
         }
         else {
-            color = al_map_rgb(0, 255, 0); // Paredes no eixo Y s„o verdes
+            color = al_map_rgb(0, 255, 0); // Paredes no eixo Y s√£o verdes
         }
 
         // Desenhar a linha vertical (a parede)
