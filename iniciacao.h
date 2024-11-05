@@ -1,27 +1,26 @@
 #pragma once
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
-
-
-ALLEGRO_BITMAP* devspng = NULL; // declara as imagem
+ALLEGRO_BITMAP* devspng = NULL; // declara as imagens
 ALLEGRO_BITMAP* doompng = NULL;
 ALLEGRO_BITMAP* cursopng = NULL;
 ALLEGRO_BITMAP* uepgpng = NULL;
-
-
+ALLEGRO_AUDIO_STREAM* mainTheme = NULL;
 
 void introducao_itens() {
     devspng = al_load_bitmap("./intro/devs.png");
     doompng = al_load_bitmap("./intro/inidoom.jpg");
     cursopng = al_load_bitmap("./intro/disc.png");
     uepgpng = al_load_bitmap("./intro/uepg.png");
-    
+    mainTheme = al_load_audio_stream("./intro/MainTheme.wav", 4, 1024);
 }
 
-void introducao(int *seg) {
-
-    //int timer_count = al_get_timer_count(timer); // Obtém o tempo atual
+void introducao(int* seg) {
+    al_attach_audio_stream_to_mixer(mainTheme, al_get_default_mixer());
+    al_set_audio_stream_playmode(mainTheme, ALLEGRO_PLAYMODE_LOOP);
 
     if (*seg < 2) {
         al_draw_bitmap(doompng, 0, 0, 0);
@@ -39,9 +38,9 @@ void introducao(int *seg) {
 }
 
 void destroi_introducao() {
-   
     al_destroy_bitmap(doompng);
     al_destroy_bitmap(devspng);
     al_destroy_bitmap(cursopng);
     al_destroy_bitmap(uepgpng);
+    al_destroy_audio_stream(mainTheme);
 }

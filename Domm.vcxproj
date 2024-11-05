@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="creditos.h" />
     <ClInclude Include="iniciacao.h" />
+    <ClInclude Include="jogo.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="radio.h" />
   </ItemGroup>
