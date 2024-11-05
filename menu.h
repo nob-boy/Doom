@@ -19,12 +19,12 @@ void itens_menu() {
     E1M1 = al_load_audio_stream("./menu/E1M1.wav", 4, 1024);
 }
 
-void iniciar_menu(int *seg) {
+void iniciar_menu(int* seg) {
     int frame;
 
     if (*seg < 15) {
 
-        frame = (*seg - 10)* 2 % 5;
+        frame = (*seg - 10) * 2 % 5;
         al_draw_bitmap_region(iniciar_animacao, frame * 1000, 0, 1000, 1000, 0, 0, 0);
 
     }

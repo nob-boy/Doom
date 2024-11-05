@@ -11,11 +11,11 @@ ALLEGRO_AUDIO_STREAM* bfg = NULL;
 
 
 void declara_musicas() {
-	
+
 	TheOnly = al_load_audio_stream("./radio/TheOnly.wav", 4, 1024);
 	dogma = al_load_audio_stream("./radio/theme.wav", 4, 1024);
 	bfg = al_load_audio_stream("./radio/bfg.ogg", 4, 1024);
-	
+
 }
 
 void radio(int* seg_jogo) {
@@ -47,5 +47,4 @@ void destroi_musica() {
 	al_destroy_audio_stream(bfg);
 
 }
-
 

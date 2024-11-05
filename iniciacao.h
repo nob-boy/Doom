@@ -44,3 +44,4 @@ void destroi_introducao() {
     al_destroy_bitmap(uepgpng);
     al_destroy_audio_stream(mainTheme);
 }
+
