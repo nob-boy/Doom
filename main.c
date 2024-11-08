@@ -8,8 +8,10 @@
 #include "iniciacao.h"
 #include "creditos.h"
 #include "radio.h"
+#include "doom_slayer.h"
 #include "menu.h"
 #include "jogo.h"
+
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
@@ -51,6 +53,7 @@ int main() {
     introducao_itens();
     itens_menu();
     declara_devs();
+    declara_slayer();
 
     while (janela) {
         ALLEGRO_EVENT event;
@@ -84,13 +87,14 @@ int main() {
                 if (tempo % 60 == 0) {
                     seg_jogo++;
                 }
-                radio(&seg_jogo);
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                radio(&seg_jogo);           
                 doom(&player, keys);
-
+                armado();
                 if (mostra_devs) {
                     devs();
                 }
-                if (keys[ALLEGRO_KEY_ESCAPE]) {
+                else if (keys[ALLEGRO_KEY_ESCAPE]) {
                     mostra_devs = false;
                     mostra_menu = true;
                 }
@@ -138,9 +142,11 @@ int main() {
     }
 
     // Libera os recursos
+    
+    destroi_introducao();
+    destroi_doom_slayer();
     destroi_devs();
     destroi_menu();
-    destroi_introducao();
     destroi_musica();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
