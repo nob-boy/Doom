@@ -90,7 +90,7 @@ int main() {
                 al_clear_to_color(al_map_rgb(0, 0, 0));
                 radio(&seg_jogo);           
                 doom(&player, keys);
-                armado();
+                armado(keys);
                 if (mostra_devs) {
                     devs();
                 }
@@ -100,7 +100,7 @@ int main() {
                 }
             }
 
-            if (mostra_menu) {
+            else if (mostra_menu) {
                 if (keys[ALLEGRO_KEY_S]) {
                     frame = (frame + 1) % 6;
                 }
@@ -128,7 +128,7 @@ int main() {
                 }
             }
 
-            if (keys[ALLEGRO_KEY_SPACE]) {
+            else if (keys[ALLEGRO_KEY_SPACE]) {
                 mostra_menu = true;
             }
         }
