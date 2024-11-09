@@ -145,7 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creditos.h" />
+    <ClInclude Include="doom_slayer.h" />
     <ClInclude Include="iniciacao.h" />
+    <ClInclude Include="inimigos.h" />
     <ClInclude Include="jogo.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="radio.h" />
@@ -154,6 +156,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="atirandowinchester.png" />
     <Image Include="intro\devs.png" />
     <Image Include="intro\disc.png" />
     <Image Include="intro\inidoom.jpg" />

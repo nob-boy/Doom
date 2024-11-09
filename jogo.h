@@ -1,6 +1,7 @@
 #pragma once
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include "doom_slayer.h"
 #include <math.h>
 
 // Definir as dimensões da tela e do mapa (você pode ajustar conforme sua necessidade)
@@ -8,6 +9,7 @@
 #define SCREEN_HEIGHT 1000
 #define MAP_WIDTH 20
 #define MAP_HEIGHT 20
+
 
 // Estrutura para o jogador
 typedef struct {
@@ -20,10 +22,10 @@ typedef struct {
 int map[MAP_WIDTH][MAP_HEIGHT] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
+        {1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1},
         {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1},
         {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -96,11 +98,13 @@ void move_player(Player* player, bool* keys, float moveSpeed, float rotSpeed) {
     }
 }
 
+int wallThickness = 3;
+
 // Função para desenhar uma linha vertical (parede)
 void drawVerticalLine(int x, int lineHeight, ALLEGRO_COLOR color) {
-    int start = (SCREEN_HEIGHT - lineHeight) / 2;
-    int end = start + lineHeight;
-    al_draw_line(x, start, x, end, color, 1.0);
+    int startY = (SCREEN_HEIGHT - lineHeight) / 2;
+    int endY = startY + lineHeight;
+    al_draw_filled_rectangle(x - wallThickness / 2, startY, x + wallThickness / 2, endY, color);
 }
 
 // Função de raycasting - será chamada pelo main
@@ -112,7 +116,7 @@ void doom(Player* player, bool* keys) {
 
     // Chama a função que move o jogador
     move_player(player, keys, moveSpeed, rotSpeed);
-
+    
 
     // Raycasting para renderizar as paredes
     for (int x = 0; x < SCREEN_WIDTH; x++) {
@@ -170,7 +174,8 @@ void doom(Player* player, bool* keys) {
             if (map[mapX][mapY] > 0) hit = 1;
         }
 
-
+        
+        
         // Distância do raio ao ponto de colisão
         double perpWallDist;
         if (side == 0)
@@ -181,17 +186,16 @@ void doom(Player* player, bool* keys) {
         // Calcular a altura da linha na tela
         int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 
-        // Escolher a cor baseada no lado
+       // Escolher a cor baseada no lado e desenhar a parede
         ALLEGRO_COLOR color;
         if (side == 0) {
-            color = al_map_rgb(255, 0, 0); // Paredes no eixo X são vermelhas
+            color = al_map_rgb(200, 0, 0); // Cor mais clara para paredes frontais
         }
         else {
-            color = al_map_rgb(0, 255, 0); // Paredes no eixo Y são verdes
+            color = al_map_rgb(128, 0, 0); // Cor mais escura para paredes laterais
         }
 
-        // Desenhar a linha vertical (a parede)
-        drawVerticalLine(x, lineHeight, color);
+        drawVerticalLine(x, lineHeight, color); // Desenhar a linha vertical
     }
 
     al_flip_display(); // Atualizar a tela

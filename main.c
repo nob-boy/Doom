@@ -8,8 +8,11 @@
 #include "iniciacao.h"
 #include "creditos.h"
 #include "radio.h"
+#include "inimigos.h"
+#include "doom_slayer.h"
 #include "menu.h"
 #include "jogo.h"
+
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
@@ -22,6 +25,7 @@ int main() {
     bool mostra_devs = false;
     int frame = 0;
     int seg = 0;
+    int seg_musica = 0;
     int seg_jogo = 0;
     bool janela = true;
     bool jogando = false;
@@ -48,9 +52,11 @@ int main() {
     al_start_timer(timer);
 
     declara_musicas();
+    declara_inimigo();
     introducao_itens();
     itens_menu();
     declara_devs();
+    declara_slayer();
 
     while (janela) {
         ALLEGRO_EVENT event;
@@ -83,20 +89,23 @@ int main() {
             if (jogando) {
                 if (tempo % 60 == 0) {
                     seg_jogo++;
+                    seg_musica++;
                 }
-                radio(&seg_jogo);
+                al_clear_to_color(al_map_rgb(0, 0, 0));
+                radio(&seg_musica);           
                 doom(&player, keys);
-
+                desenha_inimigo(&seg_jogo);
+                armado(keys);
                 if (mostra_devs) {
                     devs();
                 }
-                if (keys[ALLEGRO_KEY_ESCAPE]) {
+                else if (keys[ALLEGRO_KEY_ESCAPE]) {
                     mostra_devs = false;
                     mostra_menu = true;
                 }
             }
 
-            if (mostra_menu) {
+            else if (mostra_menu) {
                 if (keys[ALLEGRO_KEY_S]) {
                     frame = (frame + 1) % 6;
                 }
@@ -124,7 +133,7 @@ int main() {
                 }
             }
 
-            if (keys[ALLEGRO_KEY_SPACE]) {
+            else if (keys[ALLEGRO_KEY_SPACE]) {
                 mostra_menu = true;
             }
         }
@@ -138,9 +147,12 @@ int main() {
     }
 
     // Libera os recursos
+    
+    destroi_introducao();
+    destroi_doom_slayer();
+    destroi_inimigo();
     destroi_devs();
     destroi_menu();
-    destroi_introducao();
     destroi_musica();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
