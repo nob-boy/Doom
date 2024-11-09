@@ -1,6 +1,7 @@
 #pragma once
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
+#include "doom_slayer.h"
 #include <math.h>
 
 // Definir as dimensões da tela e do mapa (você pode ajustar conforme sua necessidade)
@@ -20,10 +21,10 @@ typedef struct {
 int map[MAP_WIDTH][MAP_HEIGHT] = {
         {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-        {1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1},
+        {1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1},
         {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1},
         {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1},
-        {1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
         {1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1},
         {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -112,7 +113,7 @@ void doom(Player* player, bool* keys) {
 
     // Chama a função que move o jogador
     move_player(player, keys, moveSpeed, rotSpeed);
-
+    
 
     // Raycasting para renderizar as paredes
     for (int x = 0; x < SCREEN_WIDTH; x++) {
@@ -170,7 +171,8 @@ void doom(Player* player, bool* keys) {
             if (map[mapX][mapY] > 0) hit = 1;
         }
 
-
+        
+       
         // Distância do raio ao ponto de colisão
         double perpWallDist;
         if (side == 0)
@@ -189,10 +191,11 @@ void doom(Player* player, bool* keys) {
         else {
             color = al_map_rgb(0, 255, 0); // Paredes no eixo Y são verdes
         }
-
+       
         // Desenhar a linha vertical (a parede)
         drawVerticalLine(x, lineHeight, color);
     }
 
     al_flip_display(); // Atualizar a tela
 }
+
