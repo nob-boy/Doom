@@ -35,6 +35,12 @@
     <ClInclude Include="jogo.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="doom_slayer.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="inimigos.h">
+      <Filter>Arquivos de Cabeçalho</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -59,6 +65,9 @@
       <Filter>Arquivos de Recurso</Filter>
     </Image>
     <Image Include="menu\menu.png">
+      <Filter>Arquivos de Recurso</Filter>
+    </Image>
+    <Image Include="atirandowinchester.png">
       <Filter>Arquivos de Recurso</Filter>
     </Image>
   </ItemGroup>

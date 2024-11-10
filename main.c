@@ -8,6 +8,7 @@
 #include "iniciacao.h"
 #include "creditos.h"
 #include "radio.h"
+#include "inimigos.h"
 #include "doom_slayer.h"
 #include "menu.h"
 #include "jogo.h"
@@ -24,6 +25,7 @@ int main() {
     bool mostra_devs = false;
     int frame = 0;
     int seg = 0;
+    int seg_musica = 0;
     int seg_jogo = 0;
     bool janela = true;
     bool jogando = false;
@@ -50,6 +52,7 @@ int main() {
     al_start_timer(timer);
 
     declara_musicas();
+    declara_inimigo();
     introducao_itens();
     itens_menu();
     declara_devs();
@@ -86,10 +89,12 @@ int main() {
             if (jogando) {
                 if (tempo % 60 == 0) {
                     seg_jogo++;
+                    seg_musica++;
                 }
                 al_clear_to_color(al_map_rgb(0, 0, 0));
-                radio(&seg_jogo);           
+                radio(&seg_musica);           
                 doom(&player, keys);
+                desenha_inimigo(&seg_jogo);
                 armado(keys);
                 if (mostra_devs) {
                     devs();
@@ -145,6 +150,7 @@ int main() {
     
     destroi_introducao();
     destroi_doom_slayer();
+    destroi_inimigo();
     destroi_devs();
     destroi_menu();
     destroi_musica();

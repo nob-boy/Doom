@@ -18,9 +18,12 @@ void introducao_itens() {
     mainTheme = al_load_audio_stream("./intro/MainTheme.wav", 4, 1024);
 }
 
+float volu = 0.5f;
+
 void introducao(int* seg) {
     al_attach_audio_stream_to_mixer(mainTheme, al_get_default_mixer());
     al_set_audio_stream_playmode(mainTheme, ALLEGRO_PLAYMODE_LOOP);
+    al_set_audio_stream_gain(mainTheme, volu);
 
     if (*seg < 2) {
         al_draw_bitmap(doompng, 0, 0, 0);

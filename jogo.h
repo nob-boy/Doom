@@ -10,6 +10,7 @@
 #define MAP_WIDTH 20
 #define MAP_HEIGHT 20
 
+
 // Estrutura para o jogador
 typedef struct {
     float x, y;  // Posição do jogador
@@ -97,11 +98,13 @@ void move_player(Player* player, bool* keys, float moveSpeed, float rotSpeed) {
     }
 }
 
+int wallThickness = 3;
+
 // Função para desenhar uma linha vertical (parede)
 void drawVerticalLine(int x, int lineHeight, ALLEGRO_COLOR color) {
-    int start = (SCREEN_HEIGHT - lineHeight) / 2;
-    int end = start + lineHeight;
-    al_draw_line(x, start, x, end, color, 1.0);
+    int startY = (SCREEN_HEIGHT - lineHeight) / 2;
+    int endY = startY + lineHeight;
+    al_draw_filled_rectangle(x - wallThickness / 2, startY, x + wallThickness / 2, endY, color);
 }
 
 // Função de raycasting - será chamada pelo main
@@ -172,7 +175,7 @@ void doom(Player* player, bool* keys) {
         }
 
         
-       
+        
         // Distância do raio ao ponto de colisão
         double perpWallDist;
         if (side == 0)
@@ -183,19 +186,17 @@ void doom(Player* player, bool* keys) {
         // Calcular a altura da linha na tela
         int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 
-        // Escolher a cor baseada no lado
+       // Escolher a cor baseada no lado e desenhar a parede
         ALLEGRO_COLOR color;
         if (side == 0) {
-            color = al_map_rgb(255, 0, 0); // Paredes no eixo X são vermelhas
+            color = al_map_rgb(200, 0, 0); // Cor mais clara para paredes frontais
         }
         else {
-            color = al_map_rgb(0, 255, 0); // Paredes no eixo Y são verdes
+            color = al_map_rgb(128, 0, 0); // Cor mais escura para paredes laterais
         }
-       
-        // Desenhar a linha vertical (a parede)
-        drawVerticalLine(x, lineHeight, color);
+
+        drawVerticalLine(x, lineHeight, color); // Desenhar a linha vertical
     }
 
     al_flip_display(); // Atualizar a tela
 }
-
