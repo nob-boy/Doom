@@ -20,7 +20,7 @@ void desenha_inimigo(int *seg_jogo) {
 
 	
 	if (pos_Y < 600) {
-		pos_Y += 1;  // Move o inimigo para baixo
+		pos_Y += 1; 
 	}
 	
 }
