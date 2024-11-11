@@ -183,20 +183,21 @@ void doom(Player* player, bool* keys) {
         else
             perpWallDist = (mapY - player->y + (1 - stepY) / 2) / rayDirY;
 
-        // Calcular a altura da linha na tela
+       // Calcular a altura da linha na tela
         int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
 
-       // Escolher a cor baseada no lado e desenhar a parede
+        // Definir a cor da parede baseada no lado (X ou Y) para dar uma sensação de sombreamento
         ALLEGRO_COLOR color;
         if (side == 0) {
-            color = al_map_rgb(200, 0, 0); // Cor mais clara para paredes frontais
-        }
-        else {
-            color = al_map_rgb(128, 0, 0); // Cor mais escura para paredes laterais
+            color = al_map_rgb(200, 0, 0); 
+        } else {
+            color = al_map_rgb(128, 0, 0); 
         }
 
-        drawVerticalLine(x, lineHeight, color); // Desenhar a linha vertical
+        // Desenhar a linha vertical da parede na posição x
+        drawVerticalLine(x, lineHeight, color);
     }
 
-    al_flip_display(); // Atualizar a tela
+    // Atualizar a tela após desenhar tudo
+    al_flip_display();
 }
