@@ -1,19 +1,23 @@
 #pragma once
+#include <stdio.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 
-ALLEGRO_BITMAP* teste = NULL;
+ALLEGRO_BITMAP* credito = NULL;
 
-void declara_devs() {
-	teste = al_load_bitmap("./creditos/teste.jpg");
+void declara_credito() {
+	credito = al_load_bitmap("./cre.jpg");
+	if (!credito) {
+		printf("ERRO AO INICIAR CREDITO");
+	}
 }
 
-void devs() {
+void creditos() {
 
-	al_draw_bitmap(teste, 0, 0, 0);
+	al_draw_bitmap(credito, 0, 0, 0);
 
 }
 
-void destroi_devs() {
-
+void destroi_credito() {
+	al_destroy_bitmap(credito);
 }

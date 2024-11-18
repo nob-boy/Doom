@@ -38,7 +38,7 @@
     <ClInclude Include="doom_slayer.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="inimigos.h">
+    <ClInclude Include="tutorial.h">
       <Filter>Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

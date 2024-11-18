@@ -7,25 +7,47 @@
 #include <allegro5/keyboard.h>
 #include "iniciacao.h"
 #include "creditos.h"
+#include "tutorial.h"
 #include "radio.h"
-#include "inimigos.h"
 #include "doom_slayer.h"
 #include "menu.h"
 #include "jogo.h"
-
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
 bool keys[ALLEGRO_KEY_MAX] = { false };
 
+// Função para atualizar o frame do menu, evitando repetições rápidas
+void atualizar_frame_menu(int* frame) {
+    static bool w_pressionado = false;
+    static bool s_pressionado = false;
+
+    if (keys[ALLEGRO_KEY_S] && !s_pressionado) {
+        *frame = (*frame + 1) % 6;
+        s_pressionado = true;
+    }
+    else if (!keys[ALLEGRO_KEY_S]) {
+        s_pressionado = false;
+    }
+
+    if (keys[ALLEGRO_KEY_W] && !w_pressionado) {
+        *frame = (*frame - 1 + 6) % 6;
+        w_pressionado = true;
+    }
+    else if (!keys[ALLEGRO_KEY_W]) {
+        w_pressionado = false;
+    }
+}
+
 int main() {
     bool play = true;
     int tempo = 0;
     bool mostra_menu = false;
+    bool inicia_menu = true;
     bool mostra_devs = false;
+    bool tutori = false;
     int frame = 0;
     int seg = 0;
-    int seg_musica = 0;
     int seg_jogo = 0;
     bool janela = true;
     bool jogando = false;
@@ -52,11 +74,12 @@ int main() {
     al_start_timer(timer);
 
     declara_musicas();
-    declara_inimigo();
     introducao_itens();
     itens_menu();
-    declara_devs();
+    declara_tuto();
+    declara_credito();
     declara_slayer();
+    declara_jogo();
 
     while (janela) {
         ALLEGRO_EVENT event;
@@ -76,84 +99,96 @@ int main() {
 
         al_clear_to_color(al_map_rgb(0, 0, 0));
 
-        if (tempo % 60 == 0) {
-            seg++;
+        if (event.type == ALLEGRO_EVENT_TIMER) {
+            tempo++;
+            if (tempo % 60 == 0) {
+                seg++;
+            }
         }
 
         if (seg < 10) {
             introducao(&seg);
         }
-        else {
-            iniciar_menu(&seg);
+        else if (mostra_devs) {
+            // Exibição dos créditos
+            creditos();
 
-            if (jogando) {
-                if (tempo % 60 == 0) {
-                    seg_jogo++;
-                    seg_musica++;
-                }
-                al_clear_to_color(al_map_rgb(0, 0, 0));
-                radio(&seg_musica);           
-                doom(&player, keys);
-                desenha_inimigo(&seg_jogo);
-                armado(keys);
-                if (mostra_devs) {
-                    devs();
-                }
-                else if (keys[ALLEGRO_KEY_ESCAPE]) {
-                    mostra_devs = false;
-                    mostra_menu = true;
-                }
-            }
-
-            else if (mostra_menu) {
-                if (keys[ALLEGRO_KEY_S]) {
-                    frame = (frame + 1) % 6;
-                }
-                if (keys[ALLEGRO_KEY_W]) {
-                    frame = (frame + 5) % 6;
-                }
-                Menu(&frame);
-
-                if (keys[ALLEGRO_KEY_ENTER]) {
-                    switch (frame) {
-                    case 0: // Iniciar jogo
-                        jogando = true;
-                        mostra_menu = false;
-                        break;
-                    case 2: // Sair do jogo
-                        janela = false;
-                        break;
-                    case 4: // Mostrar desenvolvedores
-                        mostra_devs = true;
-                        mostra_menu = false;
-                        break;
-                    default:
-                        break;
-                    }
-                }
-            }
-
-            else if (keys[ALLEGRO_KEY_SPACE]) {
+            // Voltar ao menu com ESC
+            if (keys[ALLEGRO_KEY_ESCAPE]) {
+                mostra_devs = false;
                 mostra_menu = true;
+            }
+        }
+        else if (tutori) {
+            tutorial();
+
+            // Voltar ao menu com ESC
+            if (keys[ALLEGRO_KEY_ESCAPE]) {
+                tutori = false;
+                mostra_menu = true;
+            }
+        }
+        else if (jogando) {
+            if (tempo % 60 == 0) {
+                seg_jogo++;
+            }
+
+            al_clear_to_color(al_map_rgb(0, 0, 0));
+            radio(&seg_jogo);
+            doom(&player, keys, &seg_jogo);
+           // armado(keys);
+
+            if (keys[ALLEGRO_KEY_ESCAPE]) {
+                jogando = false;
+                mostra_menu = true;
+            }
+        }
+        else if (mostra_menu) {
+            atualizar_frame_menu(&frame);
+            Menu(&frame);
+
+            if (keys[ALLEGRO_KEY_ENTER]) {
+                switch (frame) {
+                case 0: // Iniciar jogo
+                    jogando = true;
+                    mostra_menu = false;
+                    break;
+                case 2: // Sair do jogo
+                    janela = false;
+                    break;
+                case 3: // Sair do jogo
+                   tutori = true;
+                   mostra_menu = false;
+                    break;
+                case 4: // Mostrar desenvolvedores
+                    mostra_devs = true;
+                    mostra_menu = false;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+        else if (inicia_menu) {
+            iniciar_menu(&seg);
+            if (keys[ALLEGRO_KEY_SPACE]) {
+                mostra_menu = true;
+                inicia_menu = false;
             }
         }
 
         // Atualiza a tela
         al_flip_display();
-
-        if (event.type == ALLEGRO_EVENT_TIMER) {
-            tempo++;
-        }
     }
 
     // Libera os recursos
-    
     destroi_introducao();
     destroi_doom_slayer();
-    destroi_inimigo();
-    destroi_devs();
+    destroi_credito();
+    destroi_tuto();
     destroi_menu();
     destroi_musica();
+    destroi_jogo();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
