@@ -147,10 +147,10 @@
     <ClInclude Include="creditos.h" />
     <ClInclude Include="doom_slayer.h" />
     <ClInclude Include="iniciacao.h" />
-    <ClInclude Include="inimigos.h" />
     <ClInclude Include="jogo.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="radio.h" />
+    <ClInclude Include="tutorial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
