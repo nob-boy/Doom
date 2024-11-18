@@ -17,7 +17,7 @@
 #define SCREEN_HEIGHT 1000
 bool keys[ALLEGRO_KEY_MAX] = { false };
 
-// Função para atualizar o frame do menu, evitando repetições rápidas
+// FunÃ§Ã£o para atualizar o frame do menu, evitando repetiÃ§Ãµes rÃ¡pidas
 void atualizar_frame_menu(int* frame) {
     static bool w_pressionado = false;
     static bool s_pressionado = false;
@@ -79,6 +79,7 @@ int main() {
     declara_tuto();
     declara_credito();
     declara_slayer();
+    declara_jogo();
 
     while (janela) {
         ALLEGRO_EVENT event;
@@ -109,7 +110,7 @@ int main() {
             introducao(&seg);
         }
         else if (mostra_devs) {
-            // Exibição dos créditos
+            // ExibiÃ§Ã£o dos crÃ©ditos
             creditos();
 
             // Voltar ao menu com ESC
@@ -187,6 +188,7 @@ int main() {
     destroi_tuto();
     destroi_menu();
     destroi_musica();
+    destroi_jogo();
     al_destroy_display(display);
     al_destroy_event_queue(event_queue);
     al_destroy_timer(timer);
