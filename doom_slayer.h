@@ -5,6 +5,8 @@
 #include <allegro5/allegro_acodec.h>
 #include <stdio.h>
 
+//no final nem foi usado
+
 ALLEGRO_BITMAP* winchester = NULL;
 ALLEGRO_SAMPLE* tiro = NULL;
 bool atirando = false; 
