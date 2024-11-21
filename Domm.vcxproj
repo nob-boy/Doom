@@ -149,6 +149,7 @@
     <ClInclude Include="iniciacao.h" />
     <ClInclude Include="jogo.h" />
     <ClInclude Include="menu.h" />
+    <ClInclude Include="opcao.h" />
     <ClInclude Include="radio.h" />
     <ClInclude Include="tutorial.h" />
   </ItemGroup>
