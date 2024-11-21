@@ -30,13 +30,13 @@ void radio(int* seg_musica) {
 	}
 
 	else if ((*seg_musica > 70) && (*seg_musica <= 509)) {
-		al_detach_audio_stream(dogma); // Para a música anterior
+		al_detach_audio_stream(dogma); 
 		al_attach_audio_stream_to_mixer(bfg, al_get_default_mixer());
 		al_set_audio_stream_playmode(bfg, ALLEGRO_PLAYMODE_ONCE);
 		al_set_audio_stream_gain(bfg, volume);
 	}
 	else if ((*seg_musica > 509) && (*seg_musica <= 919)) {
-		al_detach_audio_stream(dogma); // Para a música anterior
+		al_detach_audio_stream(dogma); 
 		al_attach_audio_stream_to_mixer(TheOnly, al_get_default_mixer());
 		al_set_audio_stream_playmode(TheOnly, ALLEGRO_PLAYMODE_ONCE);
 		al_set_audio_stream_gain(TheOnly, volume);
