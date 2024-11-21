@@ -27,7 +27,7 @@ typedef struct {
 int map[MAP_WIDTH][MAP_HEIGHT] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-    {1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+    {1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1},
@@ -135,8 +135,9 @@ void declara_jogo() {
 
 bool continua = true;
 
+
 // Função de raycasting - será chamada pelo main
-void doom(Player* player, bool* keys, int *seg_jogo) {
+void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
 
     if (*seg_jogo < 5) {
         al_draw_bitmap(inicio, 0, 0, 0);
@@ -150,18 +151,28 @@ void doom(Player* player, bool* keys, int *seg_jogo) {
         // Chama a função que move o jogador
         move_player(player, keys, moveSpeed, rotSpeed);
 
-        
+
         if (*seg_jogo > (60 * 3)) {
-             al_draw_bitmap(perdeu, 0, 0, 0);
-             continua = false;
+            al_draw_bitmap(perdeu, 0, 0, 0);
+            *jogar = false;
+
+            if (keys[ALLEGRO_KEY_SPACE]) {
+                *final = true;
+                } 
+            
         }
-        
+
         // Verifica se o jogador atingiu o objetivo
         else if (fabs(player->x - targetX) < 0.5 && fabs(player->y - targetY) < 0.5) {
-            al_draw_bitmap(venceu, 0, 0, 0);
-            continua = false;
+                al_draw_bitmap(venceu, 0, 0, 0);
+            
+            *jogar = false;
+
+            if (keys[ALLEGRO_KEY_SPACE]) {
+                *final = true;
+            }
         }
-        if (continua) {
+        if (*jogar) {
 
             // Raycasting para renderizar as paredes
             for (int x = 0; x < SCREEN_WIDTH; x++) {

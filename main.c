@@ -8,6 +8,7 @@
 #include "iniciacao.h"
 #include "creditos.h"
 #include "tutorial.h"
+#include "opcao.h"
 #include "radio.h"
 #include "doom_slayer.h"
 #include "menu.h"
@@ -51,6 +52,9 @@ int main() {
     int seg_jogo = 0;
     bool janela = true;
     bool jogando = false;
+    bool final = false;
+    bool jogar = true;
+    bool opc = false;
 
     Player player = { 3.0, 3.0, -1.0, 0.0, 0.0, 0.66 }; // Defina o player
 
@@ -74,6 +78,7 @@ int main() {
     al_start_timer(timer);
 
     declara_musicas();
+    declara_opcao();
     introducao_itens();
     itens_menu();
     declara_tuto();
@@ -128,6 +133,15 @@ int main() {
                 mostra_menu = true;
             }
         }
+        else if (opc) {
+            opcoes();
+
+            // Voltar ao menu com ESC
+            if (keys[ALLEGRO_KEY_ESCAPE]) {
+                opc = false;
+                mostra_menu = true;
+            }
+        }
         else if (jogando) {
             if (tempo % 60 == 0) {
                 seg_jogo++;
@@ -135,22 +149,32 @@ int main() {
 
             al_clear_to_color(al_map_rgb(0, 0, 0));
             radio(&seg_jogo);
-            doom(&player, keys, &seg_jogo);
-           // armado(keys);
+            doom(&player, keys, &seg_jogo, &final, &jogar);
+          
+            if (final) {            
+                jogando = false;
+                mostra_menu = true;
+            }
 
-            if (keys[ALLEGRO_KEY_ESCAPE]) {
+            if (keys[ALLEGRO_KEY_ESCAPE]) {    
                 jogando = false;
                 mostra_menu = true;
             }
         }
+        
         else if (mostra_menu) {
             atualizar_frame_menu(&frame);
             Menu(&frame);
 
             if (keys[ALLEGRO_KEY_ENTER]) {
                 switch (frame) {
-                case 0: // Iniciar jogo
+                case 0: 
                     jogando = true;
+                    jogar = true;
+                    mostra_menu = false;
+                    break;
+                case 1:
+                    opc = true;
                     mostra_menu = false;
                     break;
                 case 2: // Sair do jogo
@@ -184,6 +208,7 @@ int main() {
     // Libera os recursos
     destroi_introducao();
     destroi_doom_slayer();
+    destroi_opcao();
     destroi_credito();
     destroi_tuto();
     destroi_menu();
