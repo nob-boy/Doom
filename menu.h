@@ -37,12 +37,11 @@ float vol = 0.2f;
 
 void Menu(int* frame) {
 
-    int current_x = (*frame % 2) * 1000;  // Controle horizontal (2 sprites por linha)
-    int current_y = (*frame / 2) * 1000;  // Controle vertical (3 linhas)
+    int current_x = (*frame % 2) * 1000;  
+    int current_y = (*frame / 2) * 1000; 
 
     al_detach_audio_stream(mainTheme); // Para a música anterior
 
-    // Define e inicia o áudio do menu, com loop e controle de volume
     al_attach_audio_stream_to_mixer(E1M1, al_get_default_mixer());
     al_set_audio_stream_playmode(E1M1, ALLEGRO_PLAYMODE_LOOP);
     al_set_audio_stream_gain(E1M1, vol);
