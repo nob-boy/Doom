@@ -18,7 +18,7 @@
 #define SCREEN_HEIGHT 1000
 bool keys[ALLEGRO_KEY_MAX] = { false };
 
-//corrige o bug do menu
+// Função para atualizar o frame do menu, evitando repetições rápidas
 void atualizar_frame_menu(int* frame) {
     static bool w_pressionado = false;
     static bool s_pressionado = false;
@@ -55,9 +55,8 @@ int main() {
     bool final = false;
     bool jogar = true;
     bool opc = false;
-    bool musi = true;
 
-    Player player = { 3.0, 3.0, -1.0, 0.0, 0.0, 1.0 };
+    Player player = { 3.0, 3.0, -1.0, 0.0, 0.0, 0.66 }; // Defina o player
 
     al_init();
     al_init_font_addon();
@@ -95,6 +94,7 @@ int main() {
             break;
         }
 
+        // Captura eventos de teclado
         if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
             keys[event.keyboard.keycode] = true;
         }
@@ -115,8 +115,10 @@ int main() {
             introducao(&seg);
         }
         else if (mostra_devs) {
+            // Exibição dos créditos
             creditos();
 
+            // Voltar ao menu com ESC
             if (keys[ALLEGRO_KEY_ESCAPE]) {
                 mostra_devs = false;
                 mostra_menu = true;
@@ -125,6 +127,7 @@ int main() {
         else if (tutori) {
             tutorial();
 
+            // Voltar ao menu com ESC
             if (keys[ALLEGRO_KEY_ESCAPE]) {
                 tutori = false;
                 mostra_menu = true;
@@ -133,6 +136,7 @@ int main() {
         else if (opc) {
             opcoes();
 
+            // Voltar ao menu com ESC
             if (keys[ALLEGRO_KEY_ESCAPE]) {
                 opc = false;
                 mostra_menu = true;
@@ -144,31 +148,27 @@ int main() {
             }
 
             al_clear_to_color(al_map_rgb(0, 0, 0));
-            if (musi) {
-                radio(&seg_jogo);
-            }
+            radio(&seg_jogo);
             doom(&player, keys, &seg_jogo, &final, &jogar);
-          
-            if (final) {     
-                musi = false;
+
+            if (final) {
                 jogando = false;
                 mostra_menu = true;
             }
 
-            if (keys[ALLEGRO_KEY_ESCAPE]) {    
-                musi = false;
+            if (keys[ALLEGRO_KEY_ESCAPE]) {
                 jogando = false;
                 mostra_menu = true;
             }
         }
-        
+
         else if (mostra_menu) {
             atualizar_frame_menu(&frame);
             Menu(&frame);
 
             if (keys[ALLEGRO_KEY_ENTER]) {
                 switch (frame) {
-                case 0: 
+                case 0:
                     jogando = true;
                     jogar = true;
                     mostra_menu = false;
@@ -177,14 +177,14 @@ int main() {
                     opc = true;
                     mostra_menu = false;
                     break;
-                case 2: 
+                case 2: // Sair do jogo
                     janela = false;
                     break;
-                case 3: 
-                   tutori = true;
-                   mostra_menu = false;
+                case 3: // Sair do jogo
+                    tutori = true;
+                    mostra_menu = false;
                     break;
-                case 4: 
+                case 4: // Mostrar desenvolvedores
                     mostra_devs = true;
                     mostra_menu = false;
                     break;
@@ -201,9 +201,11 @@ int main() {
             }
         }
 
+        // Atualiza a tela
         al_flip_display();
     }
 
+    // Libera os recursos
     destroi_introducao();
     destroi_doom_slayer();
     destroi_opcao();
