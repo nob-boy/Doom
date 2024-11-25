@@ -18,7 +18,7 @@
 #define SCREEN_HEIGHT 1000
 bool keys[ALLEGRO_KEY_MAX] = { false };
 
-// Função para atualizar o frame do menu, evitando repetições rápidas
+// FunÃ§Ã£o para atualizar o frame do menu, evitando repetiÃ§Ãµes rÃ¡pidas
 void atualizar_frame_menu(int* frame) {
     static bool w_pressionado = false;
     static bool s_pressionado = false;
@@ -115,7 +115,7 @@ int main() {
             introducao(&seg);
         }
         else if (mostra_devs) {
-            // Exibição dos créditos
+            // ExibiÃ§Ã£o dos crÃ©ditos
             creditos();
 
             // Voltar ao menu com ESC
