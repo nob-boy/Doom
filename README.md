@@ -1,5 +1,10 @@
 # Domm
 
-Instalar a biblioteca Allegro 5
+Trabalho final da disciplina Algortimo e programção 
 
-pós configurar a intalação da allegro pode ser rodado o jogo
+professor: Marcos Monteiro Junior
+
+Aluno: João Rafael dos Santos da Rosa     RA:23014826
+Aluno: Lucas Schemberger Oliveira         RA:
+Aluno: Ícaro Mikos De Souza               RA:
+Aluno: Samuel Da Silva Rocha              RA:
