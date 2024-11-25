@@ -141,6 +141,7 @@ void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
     if (*seg_jogo < 5) {
         al_draw_bitmap(inicio, 0, 0, 0);
     }
+
     else {
         al_clear_to_color(al_map_rgb(0, 0, 0)); 
 
@@ -150,24 +151,32 @@ void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
         move_player(player, keys, moveSpeed, rotSpeed);
 
         if (temp) {
-            if (*seg_jogo > 60*3) {
+
+            if (*seg_jogo > 60 * 2) {
+
                 al_draw_bitmap(perdeu, 0, 0, 0);
-                if (*seg_jogo >= (60*3) + 5) {
+
+                if (*seg_jogo >= (60*2) + 5) {
+
                     al_draw_bitmap(acabou, 0, 0, 0);
+
                 }
                 *jogar = false;
 
 
                 if (keys[ALLEGRO_KEY_SPACE]) {
+
                     *final = true;
+
                 }
 
             }
         }
+
         // ve se deu boa de chegar na saida
         else if (fabs(player->x - targetX) < 0.5 && fabs(player->y - targetY) < 0.5) {
          
-                al_draw_bitmap(venceu, 0, 0, 0);
+            al_draw_bitmap(venceu, 0, 0, 0);
 
             *jogar = false;
             temp = false;
@@ -176,6 +185,7 @@ void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
                 *final = true;
             }
         }
+
         if (*jogar) {
 
             // Raycasting para renderizar as paredes
