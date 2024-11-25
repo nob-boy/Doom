@@ -7,8 +7,7 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 1000
-#define MAP_WIDTH 20
-#define MAP_HEIGHT 38
+
 
 typedef struct {
     float x, y; 
@@ -17,10 +16,10 @@ typedef struct {
 } Player;
 
 
-#define MAP_WIDTH 27
-#define MAP_HEIGHT 40
+#define MAPA_WIDTH 27
+#define MAPA_HEIGHT 40
 
-int map[MAP_WIDTH][MAP_HEIGHT] = {
+int mapa[MAPA_WIDTH][MAPA_HEIGHT] = {
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
     {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1},
@@ -51,72 +50,72 @@ int map[MAP_WIDTH][MAP_HEIGHT] = {
 };
 
 // Posição pra chegar
-float targetX = 27.0, targetY = 38.0;
+float posiX = 27.0, posiY = 38.0;
 
 // verifica posição
-bool check_collision(Player* player, float newX, float newY) {
-    int mapX = (int)newX;
-    int mapY = (int)newY;
+bool colisao(Player* player, float X, float Y) {
+    int mapaX = (int)X;
+    int mapaY = (int)Y;
 
    //limite mapa
-    if (mapX < 0 || mapX >= MAP_WIDTH || mapY < 0 || mapY >= MAP_HEIGHT) {
+    if (mapaX < 0 || mapaX >= MAPA_WIDTH || mapaY < 0 || mapaY >= MAPA_HEIGHT) {
         return true; 
     }
-    return map[mapX][mapY] == 1; 
+    return mapa[mapaX][mapaY] == 1; 
 }
 
 // andar 
 void move_player(Player* player, bool* keys, float moveSpeed, float rotSpeed) {
-    float newX = player->x;
-    float newY = player->y;
+    float X = player->x;
+    float Y = player->y;
 
     //anda para frente
     if (keys[ALLEGRO_KEY_W]) {
-        newX += player->dirX * moveSpeed;
-        newY += player->dirY * moveSpeed;
-        if (!check_collision(player, newX, newY)) { 
-            player->x = newX;
-            player->y = newY;
+        X += player->dirX * moveSpeed;
+        Y += player->dirY * moveSpeed;
+        if (!colisao(player, X,Y)) { 
+            player->x = X;
+            player->y = Y;
         }
     }
     // anda pra tras
     if (keys[ALLEGRO_KEY_S]) {
-        newX -= player->dirX * moveSpeed;
-        newY -= player->dirY * moveSpeed;
-        if (!check_collision(player, newX, newY)) {
-            player->x = newX; 
-            player->y = newY;
+        X -= player->dirX * moveSpeed;
+        Y -= player->dirY * moveSpeed;
+        if (!colisao(player, X, Y)) {
+            player->x = X; 
+            player->y = Y;
         }
     }
     // Rotaciona para a direita
     if (keys[ALLEGRO_KEY_D]) {
-        float oldDirX = player->dirX;
+        float DirX2 = player->dirX;
         player->dirX = player->dirX * cos(-rotSpeed) - player->dirY * sin(-rotSpeed);
-        player->dirY = oldDirX * sin(-rotSpeed) + player->dirY * cos(-rotSpeed);
+        player->dirY = DirX2 * sin(-rotSpeed) + player->dirY * cos(-rotSpeed);
 
-        float oldPlaneX = player->planeX;
+        float PlaneX2 = player->planeX;
         player->planeX = player->planeX * cos(-rotSpeed) - player->planeY * sin(-rotSpeed);
-        player->planeY = oldPlaneX * sin(-rotSpeed) + player->planeY * cos(-rotSpeed);
+        player->planeY = PlaneX2 * sin(-rotSpeed) + player->planeY * cos(-rotSpeed);
     }
     // Rotaciona para a esquerda
     if (keys[ALLEGRO_KEY_A]) {
-        float oldDirX = player->dirX;
+        float DirX2 = player->dirX;
         player->dirX = player->dirX * cos(rotSpeed) - player->dirY * sin(rotSpeed);
-        player->dirY = oldDirX * sin(rotSpeed) + player->dirY * cos(rotSpeed);
+        player->dirY = DirX2 * sin(rotSpeed) + player->dirY * cos(rotSpeed);
 
-        float oldPlaneX = player->planeX;
+        float PlaneX2 = player->planeX;
         player->planeX = player->planeX * cos(rotSpeed) - player->planeY * sin(rotSpeed);
-        player->planeY = oldPlaneX * sin(rotSpeed) + player->planeY * cos(rotSpeed);
+        player->planeY = PlaneX2 * sin(rotSpeed) + player->planeY * cos(rotSpeed);
     }
 }
 
-int wallThickness = 3;
+int largura_p = 3;
 
 // linha verticalparede
-void verticaL_parede(int x, int lineHeight, ALLEGRO_COLOR color) {
-    int startY = (SCREEN_HEIGHT - lineHeight) / 2;
-    int endY = startY + lineHeight;
-    al_draw_filled_rectangle(x - wallThickness / 2, startY, x + wallThickness / 2, endY, color);
+void verticaL_parede(int x, int altura_p, ALLEGRO_COLOR cor) {
+    int comecoY = (SCREEN_HEIGHT - altura_p) / 2;
+    int fimY = comecoY + altura_p;
+    al_draw_filled_rectangle(x - largura_p / 2, comecoY, x + largura_p / 2, fimY, cor);
 }
 
 ALLEGRO_BITMAP* inicio = NULL;
@@ -135,7 +134,7 @@ bool continua = true;
 int seg_fim = 0;
 bool temp = true;
 
-// Função de raycasting - será chamada pelo main
+// Função de raycasting
 void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
 
     if (*seg_jogo < 5) {
@@ -145,10 +144,10 @@ void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
     else {
         al_clear_to_color(al_map_rgb(0, 0, 0)); 
 
-        float moveSpeed = 0.05; 
-        float rotSpeed = 0.03;  
+        float velo_movi = 0.05; 
+        float velo_rot = 0.03;  
 
-        move_player(player, keys, moveSpeed, rotSpeed);
+        move_player(player, keys, velo_movi, velo_rot);
 
         if (temp) {
 
@@ -174,7 +173,7 @@ void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
         }
 
         // ve se deu boa de chegar na saida
-        else if (fabs(player->x - targetX) < 0.5 && fabs(player->y - targetY) < 0.5) {
+        else if (fabs(player->x - posiX) < 0.5 && fabs(player->y - posiY) < 0.5) {
          
             al_draw_bitmap(venceu, 0, 0, 0);
 
@@ -201,62 +200,62 @@ void doom(Player* player, bool* keys, int* seg_jogo, bool *final, bool *jogar) {
                 double deltaDistX = fabs(1 / rayDirX);
                 double deltaDistY = fabs(1 / rayDirY);
 
-                double sideDistX, sideDistY;
+                double lado_DistX, lado_DistY;
                 int stepX, stepY;
                 int hit = 0; 
-                int side;   
+                int lado;   
 
                 if (rayDirX < 0) {
                     stepX = -1;
-                    sideDistX = (player->x - mapX) * deltaDistX;
+                    lado_DistX = (player->x - mapX) * deltaDistX;
                 }
                 else {
                     stepX = 1;
-                    sideDistX = (mapX + 1.0 - player->x) * deltaDistX;
+                    lado_DistX = (mapX + 1.0 - player->x) * deltaDistX;
                 }
                 if (rayDirY < 0) {
                     stepY = -1;
-                    sideDistY = (player->y - mapY) * deltaDistY;
+                    lado_DistY = (player->y - mapY) * deltaDistY;
                 }
                 else {
                     stepY = 1;
-                    sideDistY = (mapY + 1.0 - player->y) * deltaDistY;
+                    lado_DistY = (mapY + 1.0 - player->y) * deltaDistY;
                 }
 
                 while (!hit) {
                     // anda pra proxima posição
-                    if (sideDistX < sideDistY) {
-                        sideDistX += deltaDistX;
+                    if (lado_DistX < lado_DistY) {
+                        lado_DistX += deltaDistX;
                         mapX += stepX;
-                        side = 0;
+                        lado = 0;
                     }
                     else {
-                        sideDistY += deltaDistY;
+                        lado_DistY += deltaDistY;
                         mapY += stepY;
-                        side = 1;
+                        lado = 1;
                     }
                     // ve se bateu na parede
-                    if (map[mapX][mapY] > 0) hit = 1;
+                    if (mapa[mapX][mapY] > 0) hit = 1;
                 }
 
-                double perpWallDist;
-                if (side == 0)
-                    perpWallDist = (mapX - player->x + (1 - stepX) / 2) / rayDirX;
+                double dist_p;
+                if (lado == 0)
+                    dist_p = (mapX - player->x + (1 - stepX) / 2) / rayDirX;
                 else
-                    perpWallDist = (mapY - player->y + (1 - stepY) / 2) / rayDirY;
+                    dist_p = (mapY - player->y + (1 - stepY) / 2) / rayDirY;
 
                 // altura da linha na tela
-                int lineHeight = (int)(SCREEN_HEIGHT / perpWallDist);
+                int altura_l = (int)(SCREEN_HEIGHT / dist_p);
 
                 ALLEGRO_COLOR cor;
-                if (side == 0) {
+                if (lado == 0) {
                     cor = al_map_rgb(200, 0, 0);
                 }
                 else {
                     cor = al_map_rgb(128, 0, 0);
                 }
                 
-                verticaL_parede(x, lineHeight, cor);
+                verticaL_parede(x, altura_l, cor);
             }
 
             al_flip_display();

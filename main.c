@@ -18,25 +18,25 @@
 #define SCREEN_HEIGHT 1000
 bool keys[ALLEGRO_KEY_MAX] = { false };
 
-// Função para atualizar o frame do menu, evitando repetições rápidas
-void atualizar_frame_menu(int* frame) {
-    static bool w_pressionado = false;
-    static bool s_pressionado = false;
+// arruma o bug do menu
+void atualiza_menu(int* frame) {
+    static bool w = false;
+    static bool s = false;
 
-    if (keys[ALLEGRO_KEY_S] && !s_pressionado) {
+    if (keys[ALLEGRO_KEY_S] && !s) {
         *frame = (*frame + 1) % 6;
-        s_pressionado = true;
+        s= true;
     }
     else if (!keys[ALLEGRO_KEY_S]) {
-        s_pressionado = false;
+        s = false;
     }
 
-    if (keys[ALLEGRO_KEY_W] && !w_pressionado) {
+    if (keys[ALLEGRO_KEY_W] && !w) {
         *frame = (*frame - 1 + 6) % 6;
-        w_pressionado = true;
+        w = true;
     }
     else if (!keys[ALLEGRO_KEY_W]) {
-        w_pressionado = false;
+        w = false;
     }
 }
 
@@ -94,7 +94,6 @@ int main() {
             break;
         }
 
-        // Captura eventos de teclado
         if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
             keys[event.keyboard.keycode] = true;
         }
@@ -115,10 +114,10 @@ int main() {
             introducao(&seg);
         }
         else if (mostra_devs) {
-            // Exibição dos créditos
+            
             creditos();
 
-            // Voltar ao menu com ESC
+           
             if (keys[ALLEGRO_KEY_ESCAPE]) {
                 mostra_devs = false;
                 mostra_menu = true;
@@ -127,7 +126,7 @@ int main() {
         else if (tutori) {
             tutorial();
 
-            // Voltar ao menu com ESC
+            
             if (keys[ALLEGRO_KEY_ESCAPE]) {
                 tutori = false;
                 mostra_menu = true;
@@ -136,7 +135,7 @@ int main() {
         else if (opc) {
             opcoes();
 
-            // Voltar ao menu com ESC
+            
             if (keys[ALLEGRO_KEY_ESCAPE]) {
                 opc = false;
                 mostra_menu = true;
@@ -163,7 +162,7 @@ int main() {
         }
 
         else if (mostra_menu) {
-            atualizar_frame_menu(&frame);
+            atualiza_menu(&frame);
             Menu(&frame);
 
             if (keys[ALLEGRO_KEY_ENTER]) {
@@ -177,14 +176,14 @@ int main() {
                     opc = true;
                     mostra_menu = false;
                     break;
-                case 2: // Sair do jogo
+                case 2: 
                     janela = false;
                     break;
-                case 3: // Sair do jogo
+                case 3: 
                     tutori = true;
                     mostra_menu = false;
                     break;
-                case 4: // Mostrar desenvolvedores
+                case 4: 
                     mostra_devs = true;
                     mostra_menu = false;
                     break;
